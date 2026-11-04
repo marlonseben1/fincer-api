@@ -8,6 +8,8 @@ import { logger } from './lib/logger.js';
 import { errorHandler } from './middlewares/error-handler.js';
 import { notFound } from './middlewares/not-found.js';
 import { authRoutes } from './modules/auth/auth.routes.js';
+import { bancosRoutes } from './modules/bancos/bancos.routes.js';
+import { contasRoutes } from './modules/contas/contas.routes.js';
 
 export const app = express();
 
@@ -34,6 +36,8 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/v1/auth', authRoutes);
+app.use('/v1/bancos', bancosRoutes);
+app.use('/v1/contas', contasRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

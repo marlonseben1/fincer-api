@@ -1,9 +1,13 @@
 model Usuario {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  nome      String
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id            String   @id @default(cuid())
+  email         String   @unique
+  nome          String
+  contaPadraoId String?  @unique @map("conta_padrao_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  contas      Conta[] @relation("ContasDoUsuario")
+  contaPadrao Conta?  @relation("ContaPadrao", fields: [contaPadraoId], references: [id], onDelete: SetNull)
 
   @@map("usuarios")
 }

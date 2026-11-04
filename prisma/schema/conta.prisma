@@ -1,0 +1,25 @@
+enum TipoConta {
+  CORRENTE
+  POUPANCA
+  INVESTIMENTO
+  CARTEIRA
+  CARTAO_CREDITO
+}
+
+model Conta {
+  id           String    @id @default(cuid())
+  usuarioId    String    @map("usuario_id")
+  nome         String    @db.VarChar(50)
+  tipo         TipoConta
+  banco        String?   @db.VarChar(3) // código COMPE
+  saldoInicial Int       @default(0) @map("saldo_inicial") // centavos
+  arquivadaEm  DateTime? @map("arquivada_em")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  usuario       Usuario  @relation("ContasDoUsuario", fields: [usuarioId], references: [id], onDelete: Cascade)
+  usuarioPadrao Usuario? @relation("ContaPadrao")
+
+  @@index([usuarioId])
+  @@map("contas")
+}

@@ -10,6 +10,16 @@ export function errorHandler(
   res: Response,
   _next: NextFunction,
 ): void {
+  // body com JSON malformado: o express.json() lança SyntaxError com `body`
+  if (error instanceof SyntaxError && 'body' in error) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      success: false,
+      message: 'JSON inválido no corpo da requisição.',
+      code: 'INVALID_JSON',
+    });
+    return;
+  }
+
   if (error instanceof HttpError) {
     if (error.status >= HttpStatus.INTERNAL_SERVER_ERROR) {
       logger.error(

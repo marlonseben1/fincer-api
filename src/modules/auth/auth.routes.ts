@@ -5,8 +5,17 @@ import { ApiResponse } from '../../lib/http-response.js';
 import { authenticate } from '../../middlewares/authenticate.js';
 import { authRateLimit } from '../../middlewares/rate-limit.js';
 import { validateBody } from '../../middlewares/validate.js';
-import { type LoginInput, loginSchema } from './auth.schemas.js';
-import { buscarUsuarioAtual, loginComGoogle } from './auth.service.js';
+import {
+  type LoginInput,
+  loginSchema,
+  type OnboardingInput,
+  onboardingSchema,
+} from './auth.schemas.js';
+import {
+  buscarUsuarioAtual,
+  concluirOnboarding,
+  loginComGoogle,
+} from './auth.service.js';
 
 const router = Router();
 
@@ -27,6 +36,19 @@ router.get('/me', authenticate, async (req, res) => {
   const usuario = await buscarUsuarioAtual(requireUsuarioId(req));
   ApiResponse.success(res, { usuario });
 });
+
+router.post(
+  '/onboarding',
+  authenticate,
+  validateBody(onboardingSchema),
+  async (req, res) => {
+    const usuario = await concluirOnboarding(
+      requireUsuarioId(req),
+      req.body as OnboardingInput,
+    );
+    ApiResponse.success(res, { usuario });
+  },
+);
 
 router.post('/logout', (_req, res) => {
   clearAuthCookie(res);

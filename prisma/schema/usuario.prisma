@@ -1,10 +1,11 @@
 model Usuario {
-  id            String   @id @default(cuid())
-  email         String   @unique
-  nome          String
-  contaPadraoId String?  @unique @map("conta_padrao_id")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  id                    String    @id @default(cuid())
+  email                 String    @unique
+  nome                  String
+  contaPadraoId         String?   @unique @map("conta_padrao_id")
+  onboardingConcluidoEm DateTime? @map("onboarding_concluido_em")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
 
   contas      Conta[]     @relation("ContasDoUsuario")
   categorias  Categoria[]

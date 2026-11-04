@@ -1,0 +1,21 @@
+enum TipoCategoria {
+  RECEITA
+  DESPESA
+}
+
+model Categoria {
+  id          String        @id @default(cuid())
+  usuarioId   String        @map("usuario_id")
+  nome        String        @db.VarChar(30)
+  icone       String?       @db.VarChar(50)
+  tipo        TipoCategoria
+  arquivadaEm DateTime?     @map("arquivada_em")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, tipo, nome])
+  @@index([usuarioId])
+  @@map("categorias")
+}

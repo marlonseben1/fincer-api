@@ -6,7 +6,7 @@ import {
   ConflictError,
   ForbiddenError,
   UnauthorizedError,
-} from '../../lib/errors.js';
+} from '../../lib/index.js';
 import { assinarToken } from '../../lib/jwt.js';
 import { CATEGORIAS_INICIAIS } from '../categorias/categorias.constants.js';
 import type { OnboardingInput } from './auth.schemas.js';

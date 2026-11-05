@@ -21,3 +21,20 @@ export function paraData(iso: string): Date {
 export function formatarData(data: Date): string {
   return data.toISOString().slice(0, 10);
 }
+
+/** Mês atual no fuso do app, como "YYYY-MM". */
+export function mesAtual(): string {
+  return hoje().slice(0, 7);
+}
+
+/** Soma (ou subtrai) meses de um "YYYY-MM". */
+export function somarMeses(mes: string, quantidade: number): string {
+  const [ano = 0, numero = 1] = mes.split('-').map(Number);
+  const data = new Date(Date.UTC(ano, numero - 1 + quantidade, 1));
+  return data.toISOString().slice(0, 7);
+}
+
+/** Intervalo [inicio, fim) de um mês, como "YYYY-MM-DD". */
+export function intervaloDoMes(mes: string) {
+  return { inicio: `${mes}-01`, fim: `${somarMeses(mes, 1)}-01` };
+}

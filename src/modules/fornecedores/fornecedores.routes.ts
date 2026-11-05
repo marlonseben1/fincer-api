@@ -1,8 +1,6 @@
 import { Router } from 'express';
-import { requireUsuarioId } from '../../lib/auth-context.js';
-import { ApiResponse } from '../../lib/http-response.js';
-import { authenticate } from '../../middlewares/authenticate.js';
-import { validateQuery } from '../../middlewares/validate.js';
+import { ApiResponse, requireUsuarioId } from '../../lib/index.js';
+import { authenticate, validateQuery } from '../../middlewares/index.js';
 import {
   type ListarFornecedoresQuery,
   listarFornecedoresQuerySchema,

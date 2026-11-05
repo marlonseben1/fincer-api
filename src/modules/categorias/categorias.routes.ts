@@ -1,9 +1,11 @@
 import { Router } from 'express';
 import { HttpStatus } from '../../constants/http-status.js';
-import { requireUsuarioId } from '../../lib/auth-context.js';
-import { ApiResponse } from '../../lib/http-response.js';
-import { authenticate } from '../../middlewares/authenticate.js';
-import { validateBody, validateQuery } from '../../middlewares/validate.js';
+import { ApiResponse, requireUsuarioId } from '../../lib/index.js';
+import {
+  authenticate,
+  validateBody,
+  validateQuery,
+} from '../../middlewares/index.js';
 import {
   type AtualizarCategoriaInput,
   atualizarCategoriaSchema,

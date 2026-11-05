@@ -1,12 +1,14 @@
 import { prisma } from '../../db/prisma.js';
 import type { Categoria, Prisma } from '../../generated/prisma/client.js';
-import { formatarData, hoje, paraData } from '../../lib/datas.js';
 import {
   ConflictError,
+  formatarData,
+  hoje,
   NotFoundError,
+  paraData,
   UnauthorizedError,
   ValidationError,
-} from '../../lib/errors.js';
+} from '../../lib/index.js';
 import {
   aprenderCategoria,
   obterOuCriarFornecedor,

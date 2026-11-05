@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import { AUTH_COOKIE_NAME } from '../lib/cookies.js';
-import { UnauthorizedError } from '../lib/errors.js';
+import { UnauthorizedError } from '../lib/index.js';
 import { verificarToken } from '../lib/jwt.js';
 
 export function authenticate(

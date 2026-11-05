@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { ApiResponse } from '../../lib/http-response.js';
-import { authenticate } from '../../middlewares/authenticate.js';
+import { ApiResponse } from '../../lib/index.js';
+import { authenticate } from '../../middlewares/index.js';
 import { BANCOS } from './bancos.constants.js';
 
 const router = Router();

@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import { env } from '../config/config.js';
 import { HttpStatus } from '../constants/http-status.js';
-import { HttpError } from '../lib/errors.js';
+import { HttpError } from '../lib/index.js';
 import { logger } from '../lib/logger.js';
 
 export function errorHandler(

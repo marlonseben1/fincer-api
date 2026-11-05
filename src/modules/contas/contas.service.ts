@@ -4,7 +4,7 @@ import {
   ConflictError,
   NotFoundError,
   UnauthorizedError,
-} from '../../lib/errors.js';
+} from '../../lib/index.js';
 import { BANCOS } from '../bancos/bancos.constants.js';
 import { isCodigoBanco } from '../bancos/bancos.helpers.js';
 import type {
@@ -52,6 +52,19 @@ async function calcularSaldos(contas: Conta[]): Promise<Map<string, number>> {
   }
 
   return saldos;
+}
+
+/** Soma dos saldos das contas ativas (cartão de crédito entra negativo). */
+export async function saldoTotal(usuarioId: string) {
+  const contas = await prisma.conta.findMany({
+    where: { usuarioId, arquivadaEm: null },
+  });
+  const saldos = await calcularSaldos(contas);
+
+  let patrimonio = 0;
+  for (const saldo of saldos.values()) patrimonio += saldo;
+
+  return patrimonio;
 }
 
 function serializarConta(

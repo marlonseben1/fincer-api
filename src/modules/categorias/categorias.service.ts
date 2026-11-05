@@ -3,8 +3,11 @@ import type {
   Categoria,
   TipoCategoria,
 } from '../../generated/prisma/client.js';
-import { ConflictError, NotFoundError } from '../../lib/errors.js';
-import { isUniqueViolation } from '../../lib/prisma-errors.js';
+import {
+  ConflictError,
+  isUniqueViolation,
+  NotFoundError,
+} from '../../lib/index.js';
 import type {
   AtualizarCategoriaInput,
   CriarCategoriaInput,

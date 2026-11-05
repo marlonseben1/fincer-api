@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { requireUsuarioId } from '../../lib/auth-context.js';
 import { clearAuthCookie, setAuthCookie } from '../../lib/cookies.js';
-import { ApiResponse } from '../../lib/http-response.js';
-import { authenticate } from '../../middlewares/authenticate.js';
-import { authRateLimit } from '../../middlewares/rate-limit.js';
-import { validateBody } from '../../middlewares/validate.js';
+import { ApiResponse, requireUsuarioId } from '../../lib/index.js';
+import {
+  authenticate,
+  authRateLimit,
+  validateBody,
+} from '../../middlewares/index.js';
 import {
   type LoginInput,
   loginSchema,

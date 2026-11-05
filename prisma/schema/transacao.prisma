@@ -1,0 +1,32 @@
+enum TipoTransacao {
+  RECEITA
+  DESPESA
+  TRANSFERENCIA
+}
+
+model Transacao {
+  id             String        @id @default(cuid())
+  usuarioId      String        @map("usuario_id")
+  tipo           TipoTransacao
+  valor          Int // centavos, sempre > 0
+  data           DateTime      @db.Date
+  descricao      String?       @db.VarChar(200)
+  contaId        String        @map("conta_id") // origem
+  contaDestinoId String?       @map("conta_destino_id") // só TRANSFERENCIA
+  categoriaId    String?       @map("categoria_id")
+  fornecedorId   String?       @map("fornecedor_id")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  usuario      Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  conta        Conta       @relation("TransacoesDaConta", fields: [contaId], references: [id])
+  contaDestino Conta?      @relation("TransferenciasRecebidas", fields: [contaDestinoId], references: [id])
+  categoria    Categoria?  @relation(fields: [categoriaId], references: [id])
+  fornecedor   Fornecedor? @relation(fields: [fornecedorId], references: [id])
+
+  @@index([usuarioId, data])
+  @@index([contaId])
+  @@index([contaDestinoId])
+  @@index([categoriaId])
+  @@map("transacoes")
+}

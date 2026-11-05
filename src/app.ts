@@ -11,6 +11,8 @@ import { authRoutes } from './modules/auth/auth.routes.js';
 import { bancosRoutes } from './modules/bancos/bancos.routes.js';
 import { categoriasRoutes } from './modules/categorias/categorias.routes.js';
 import { contasRoutes } from './modules/contas/contas.routes.js';
+import { fornecedoresRoutes } from './modules/fornecedores/fornecedores.routes.js';
+import { transacoesRoutes } from './modules/transacoes/transacoes.routes.js';
 
 export const app = express();
 
@@ -40,6 +42,8 @@ app.use('/v1/auth', authRoutes);
 app.use('/v1/bancos', bancosRoutes);
 app.use('/v1/categorias', categoriasRoutes);
 app.use('/v1/contas', contasRoutes);
+app.use('/v1/fornecedores', fornecedoresRoutes);
+app.use('/v1/transacoes', transacoesRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

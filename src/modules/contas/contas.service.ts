@@ -13,8 +13,45 @@ import type {
   ListarContasQuery,
 } from './contas.schemas.js';
 
+/**
+ * Saldo = saldo inicial + receitas − despesas − transferências enviadas
+ * + transferências recebidas. Calculado sempre a partir das transações,
+ * nunca armazenado, para não desalinhar.
+ */
 async function calcularSaldos(contas: Conta[]): Promise<Map<string, number>> {
-  return new Map(contas.map((conta) => [conta.id, conta.saldoInicial]));
+  const saldos = new Map(contas.map((conta) => [conta.id, conta.saldoInicial]));
+  const ids = contas.map((conta) => conta.id);
+
+  if (ids.length === 0) return saldos;
+
+  const [porOrigem, porDestino] = await Promise.all([
+    prisma.transacao.groupBy({
+      by: ['contaId', 'tipo'],
+      where: { contaId: { in: ids } },
+      _sum: { valor: true },
+    }),
+    prisma.transacao.groupBy({
+      by: ['contaDestinoId'],
+      where: { contaDestinoId: { in: ids }, tipo: 'TRANSFERENCIA' },
+      _sum: { valor: true },
+    }),
+  ]);
+
+  for (const grupo of porOrigem) {
+    const valor = grupo._sum.valor ?? 0;
+    const efeito = grupo.tipo === 'RECEITA' ? valor : -valor; // despesa e transferência saem
+    saldos.set(grupo.contaId, (saldos.get(grupo.contaId) ?? 0) + efeito);
+  }
+
+  for (const grupo of porDestino) {
+    if (!grupo.contaDestinoId) continue;
+    saldos.set(
+      grupo.contaDestinoId,
+      (saldos.get(grupo.contaDestinoId) ?? 0) + (grupo._sum.valor ?? 0),
+    );
+  }
+
+  return saldos;
 }
 
 function serializarConta(

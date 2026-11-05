@@ -1,0 +1,15 @@
+model Fornecedor {
+  id                String   @id @default(cuid())
+  usuarioId         String   @map("usuario_id")
+  nome              String   @db.VarChar(100)
+  categoriaPadraoId String?  @map("categoria_padrao_id") // automação: última categoria usada
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  usuario         Usuario     @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  categoriaPadrao Categoria?  @relation(fields: [categoriaPadraoId], references: [id], onDelete: SetNull)
+  transacoes      Transacao[]
+
+  @@unique([usuarioId, nome])
+  @@map("fornecedores")
+}

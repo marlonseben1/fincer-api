@@ -17,8 +17,10 @@ model Conta {
   createdAt    DateTime  @default(now()) @map("created_at")
   updatedAt    DateTime  @updatedAt @map("updated_at")
 
-  usuario       Usuario  @relation("ContasDoUsuario", fields: [usuarioId], references: [id], onDelete: Cascade)
-  usuarioPadrao Usuario? @relation("ContaPadrao")
+  usuario                 Usuario     @relation("ContasDoUsuario", fields: [usuarioId], references: [id], onDelete: Cascade)
+  usuarioPadrao           Usuario?    @relation("ContaPadrao")
+  transacoes              Transacao[] @relation("TransacoesDaConta")
+  transferenciasRecebidas Transacao[] @relation("TransferenciasRecebidas")
 
   @@index([usuarioId])
   @@map("contas")

@@ -7,9 +7,11 @@ model Usuario {
   createdAt             DateTime  @default(now()) @map("created_at")
   updatedAt             DateTime  @updatedAt @map("updated_at")
 
-  contas      Conta[]     @relation("ContasDoUsuario")
-  categorias  Categoria[]
-  contaPadrao Conta?      @relation("ContaPadrao", fields: [contaPadraoId], references: [id], onDelete: SetNull)
+  contas       Conta[]      @relation("ContasDoUsuario")
+  categorias   Categoria[]
+  fornecedores Fornecedor[]
+  transacoes   Transacao[]
+  contaPadrao  Conta?       @relation("ContaPadrao", fields: [contaPadraoId], references: [id], onDelete: SetNull)
 
   @@map("usuarios")
 }
